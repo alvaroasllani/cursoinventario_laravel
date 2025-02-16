@@ -90,30 +90,23 @@
                     </div>
 
 
-                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                    <form id="guardarNuevaCategoria" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        @csrf
                         <div class="form-group row">
                             <label class="col-md-3 form-control-label" for="text-input">Categoría</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Nombre de categoría">
-
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre de categoría"
+                                    required>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
-                            <div class="col-md-9">
-                                <input type="email" class="form-control" placeholder="Ingrese descripcion">
-                            </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save fa-2x"></i>
+                                Guardar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                                    class="fa fa-times fa-2x"></i>
+                                Cerrar</button>
                         </div>
-
-
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i>
-                        Cerrar</button>
-                    <button type="button" class="btn btn-success"><i class="fa fa-save fa-2x"></i>
-                        Guardar</button>
-
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -121,4 +114,21 @@
         <!-- /.modal-dialog -->
     </div>
     <!--Fin del modal-->
+
+    <script>
+        $("#guardarNuevaCategoria").submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: '/guardarNuevaCategoria',
+                type: 'POST',
+                data: $("form").serialize(),
+                success: function (dat) {
+                    alertify.alert("CATEGORIA ENVIADA", function () {
+                        window.location = '/categoria';
+                    });
+                }
+            })
+        });
+    </script>
 @endsection

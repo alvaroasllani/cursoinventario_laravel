@@ -15,6 +15,10 @@
     <link href="<?php echo asset('admin')?>/vendors/css/style.css" rel="stylesheet">
 
     <script src="<?php echo asset('admin')?>/vendors/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="<?php echo asset('alert')?>/lib/alertify.js"></script>
+    <link rel="stylesheet" href="<?php echo asset('alert')?>/themes/alertify.core.css" />
+    <link rel="stylesheet" href="<?php echo asset('alert')?>/themes/alertify.default.css" />
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
