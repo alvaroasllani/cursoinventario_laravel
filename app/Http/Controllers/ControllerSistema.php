@@ -38,7 +38,7 @@ class ControllerSistema extends Controller
         $categoria = DB::table('categorias')->where('ca_estado', '!=', 'ELIMINADO')->get();
         /* dd($categoria);
         die; */
-        return view('categoria.categoria_index');
+        return view('categoria.categoria_index', compact('categoria'));
     }
     #--------------->
 
@@ -51,8 +51,26 @@ class ControllerSistema extends Controller
         $obj->ca_nombre = mb_strtoupper($request->post('nombre'), 'utf-8');
         $obj->save();
     }
+    public function cambiarEstadoCat(Request $request)
+    {
+        $id = $request->post('id');
+        $ca_estado = $request->post('ca_estado');
 
+        if ($ca_estado == 'ACTIVO') {
+            $estado = 'INACTIVO';
+        } else {
+            $estado = 'ACTIVO';
+        }
 
+        $obj = Categoria::find($id);
+        $obj->ca_estado = $estado;
+        $obj->save();
+    }
+    public function editarCategoria(Request $request)
+    {
+        $obj = DB::table('categorias')->where('id', '=', $request->post('id'))->first();
+        return view('categoria.editarCategoria_form', compact('obj'));
+    }
 
     #Modulo producto
     public function producto()

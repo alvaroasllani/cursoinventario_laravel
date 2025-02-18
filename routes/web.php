@@ -11,5 +11,7 @@ Route::get('/ejemplo2', [ControllerSistema::class, 'ejemplo2']);
 
 Route::get('/categoria', [ControllerSistema::class, 'categoria']);
 Route::post('/guardarNuevaCategoria', [ControllerSistema::class, 'guardarNuevaCategoria']);
+Route::post('/cambiarEstadoCat', [ControllerSistema::class, 'cambiarEstadoCat']);
+Route::post('/editarCategoria', [ControllerSistema::class, 'editarCategoria']);
 
 Route::get('/producto', [ControllerSistema::class, 'producto']);

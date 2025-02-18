@@ -27,37 +27,45 @@
                             <th>Cambiar Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
+                    <?php $con = 1;
+    foreach ($categoria as $listar) { ?>
+                    <tr>
+                        <td><?php    echo $con++; ?></td>
+                        <td><?php    echo $listar->ca_nombre; ?></td>
+                        <td><?php    echo $listar->created_at; ?></td>
+                        <td>
+                            <?php    if ($listar->ca_estado == 'ACTIVO') { ?>
+                            <button type="button" class="btn btn-success btn-md">
 
-                            <td>categoria</td>
-                            <td>descripcion</td>
-                            <td>
-                                <button type="button" class="btn btn-success btn-md">
+                                <i class="fa fa-check fa-2x"></i> Activo
+                            </button>
+                            <?php    } else {?>
+                            <button type="button" class="btn btn-success btn-md">
 
-                                    <i class="fa fa-check fa-2x"></i> Activo
-                                </button>
+                                <i class="fa fa-check fa-2x"></i> Inactivo
+                            </button>
+                            <?php    }?>
+                        </td>
 
-                            </td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#abrirmodal"
+                                onclick="editarCategoria('<?php    echo $listar->id ?>')">
 
-                            <td>
-                                <button type="button" class="btn btn-info btn-md" data-toggle="modal"
-                                    data-target="#abrirmodal">
+                                <i class="fa fa-edit fa-2x"></i> Editar
+                            </button> &nbsp;
+                        </td>
 
-                                    <i class="fa fa-edit fa-2x"></i> Editar
-                                </button> &nbsp;
-                            </td>
-
-                            <td>
+                        <td>
 
 
-                                <button type="button" class="btn btn-danger btn-sm">
-                                    <i class="fa fa-lock fa-2x"></i> Desactivar
-                                </button>
+                            <button type="button" class="btn btn-danger btn-sm"
+                                onclick="cambiarEstadoCat('<?php    echo $listar->id ?>','<?php    echo $listar->ca_estado ?>')"
+                                <i class="fa fa-lock fa-2x"></i> Cambiar Estado
+                            </button>
 
-                            </td>
-                        </tr>
-
+                        </td>
+                    </tr>
+                    <?php }?>
                     </tbody>
                 </table>
 
@@ -65,6 +73,8 @@
         </div>
         <!-- Fin ejemplo de tabla Listado -->
     </div>
+
+
     <!--Inicio del modal agregar/actualizar-->
     <div class="modal fade" id="abrirmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         style="display: none;" aria-hidden="true">
@@ -115,6 +125,34 @@
     </div>
     <!--Fin del modal-->
 
+
+    <!--Inicio del modal agregar/actualizar-->
+    <div class="modal fade" id="editarmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-primary modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modificar categoría</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="ver_datos">
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    </div>
+    <!--Fin del modal-->
+
+
+
     <script>
         $("#guardarNuevaCategoria").submit(function (event) {
             event.preventDefault();
@@ -130,5 +168,20 @@
                 }
             })
         });
+        function cambiarEstadoCat(id, ca_estado) {
+            //alert(id + ' ' + ca_estado)
+            $.post('/cambiarEstadoCat', { id, ca_estado }, function () {
+                alertify.alert("<b>datos enviados</b>", function () {
+                    window.location = '/categoria';
+                });
+            });
+        };
+
+        function editarCategoria(id) {
+            $("#editarmodal").modal('show');
+            $.post('/editarCategoria', { id }, function (datos) {
+                $("ver_datos").html(datos)
+            });
+        }
     </script>
 @endsection
